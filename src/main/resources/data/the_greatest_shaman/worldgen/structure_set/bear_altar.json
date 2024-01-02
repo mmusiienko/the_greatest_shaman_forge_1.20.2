@@ -1,0 +1,17 @@
+{
+
+  "structures": [
+    {
+      "structure": "the_greatest_shaman:bear_altar",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1642134112,
+    "spacing": 30,
+
+    "separation": 12,
+
+    "type": "minecraft:random_spread"
+  }
+}

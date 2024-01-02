@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "the_greatest_shaman:block/bear_altar"},
+    "facing=east": {"model": "the_greatest_shaman:block/bear_altar", "y":  90},
+    "facing=south": {"model": "the_greatest_shaman:block/bear_altar", "y":  180},
+    "facing=west": {"model": "the_greatest_shaman:block/bear_altar", "y":  270}
+  }
+}
