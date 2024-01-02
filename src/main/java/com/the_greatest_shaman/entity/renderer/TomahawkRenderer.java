@@ -45,7 +45,7 @@ public class TomahawkRenderer extends EntityRenderer<TomahawkProjectile> {
                 pBuffer,
                 pEntity.level(),
                 1432442344
-                );
+        );
         pPoseStack.popPose();
     }
 
