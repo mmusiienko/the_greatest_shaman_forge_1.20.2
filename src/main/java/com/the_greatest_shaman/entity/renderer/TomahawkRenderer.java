@@ -25,7 +25,7 @@ public class TomahawkRenderer extends EntityRenderer<TomahawkProjectile> {
     public void render(TomahawkProjectile pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
         pPoseStack.pushPose();
         pPoseStack.mulPose(Axis.ZP.rotationDegrees(90));
-        pPoseStack.mulPose(Axis.XP.rotationDegrees(180  + pEntityYaw));
+        pPoseStack.mulPose(Axis.XP.rotationDegrees(180 + pEntityYaw));
         pPoseStack.scale(SCALAR, SCALAR, SCALAR);
         if (pEntity.isRotating()) {
             pPoseStack.mulPose(Axis.YP.rotationDegrees(pEntity.tickCount * ROTATION_SPEED + pEntity.getRotationVector().x));
