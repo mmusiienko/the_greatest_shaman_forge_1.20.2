@@ -16,7 +16,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class SigmaBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
@@ -34,7 +33,7 @@ public class SigmaBlock extends BaseEntityBlock {
         return RenderShape.MODEL;
     }
 
-    @Nullable
+
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new SigmaBlockEntity(pPos, pState);
@@ -48,13 +47,14 @@ public class SigmaBlock extends BaseEntityBlock {
                 sigmaBlock.stopSoundInstance();
             }
         }
-
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
+    public @NotNull InteractionResult use(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, BlockHitResult pHit) {
+
         if (!pLevel.isClientSide()) {
+
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if (entity instanceof SigmaBlockEntity blockEntity) {
                 blockEntity.interact(pPos);

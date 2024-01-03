@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class Totem extends Item {
-
     private final MobEffect mobEffect;
     public Totem(Properties pProperties, MobEffect mobEffect) {
         super(pProperties);
@@ -27,6 +26,5 @@ public class Totem extends Item {
                 }
             }
         }
-
     }
 }

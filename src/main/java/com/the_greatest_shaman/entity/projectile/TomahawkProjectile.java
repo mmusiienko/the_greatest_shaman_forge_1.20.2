@@ -65,6 +65,7 @@ public class TomahawkProjectile extends AbstractArrow {
         entity.hurt(this.damageSources().thrown(this, this.getOwner()), 5f);
         entity.invulnerableTime = 0;
         rotating = false;
+        level().playSound(null, pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z, SoundEvents.TRIDENT_HIT, SoundSource.PLAYERS, 1f, 1f);
         if (shooter != null) {
             tomahawk.hurtAndBreak(1, shooter, (p_41303_) -> {
                 p_41303_.broadcastBreakEvent(InteractionHand.MAIN_HAND);

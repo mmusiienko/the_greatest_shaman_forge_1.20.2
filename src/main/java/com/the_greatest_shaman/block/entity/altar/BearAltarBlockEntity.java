@@ -24,13 +24,17 @@ public class BearAltarBlockEntity extends AltarBlockEntity {
             .setRewardMessage("And now he is GONE. Good job. Take this.")
             .setReward(new ItemStack(Items.BEEF, 64))
             .build();
+    private static final String greetingMessage = "Hello traveller. I`m a BEAR sigma ALTAR. Be my SLAVE and complete some QUESTS for me.";
 
     public BearAltarBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.BEAR_ALTAR_BLOCK_ENTITY.get(), pPos, pBlockState,
-                new AltarQuestSequence()
+        super(
+                ModBlockEntities.BEAR_ALTAR_BLOCK_ENTITY.get(),
+                pPos,
+                pBlockState,
+                new AltarQuestSequence(greetingMessage)
                         .add(diamondQuest)
                         .add(pigQuest)
-                        );
+        );
     }
 
 }

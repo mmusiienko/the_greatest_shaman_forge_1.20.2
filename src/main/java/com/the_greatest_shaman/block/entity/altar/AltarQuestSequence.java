@@ -5,11 +5,13 @@ import java.util.List;
 
 public class AltarQuestSequence {
     private final List<Quest> quests = new ArrayList<>();
+    private final String greetingMessage;
+
     public int size() {
         return quests.size();
     }
-    public AltarQuestSequence() {
-
+    public AltarQuestSequence(String greetingMessage) {
+        this.greetingMessage = greetingMessage;
     }
     public AltarQuestSequence add(Quest quest) {
         quests.add(quest);
@@ -23,4 +25,7 @@ public class AltarQuestSequence {
         return quests.get(index);
     }
 
+    public String getGreetingMessage() {
+        return greetingMessage;
+    }
 }

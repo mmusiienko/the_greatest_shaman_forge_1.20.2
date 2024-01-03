@@ -21,9 +21,11 @@ import java.util.*;
 
 public abstract class AltarBlockEntity extends BlockEntity {
     public static Set<AltarBlockEntity> ALTAR_BLOCK_ENTITIES = new HashSet<>();
+    private static final Queue<String> messageQueue = new LinkedList<>();
     private final AltarQuestSequence quests;
     private int currentQuestIndex = -1;
     private int entityToKillCount = 0;
+    private int ticksSinceLastMessageDisplay = 0;
 
     public AltarBlockEntity(BlockEntityType pType, BlockPos pPos, BlockState pBlockState, AltarQuestSequence quests) {
         super(pType, pPos, pBlockState);
@@ -110,8 +112,22 @@ public abstract class AltarBlockEntity extends BlockEntity {
         displayQuestTask(pPlayer);
         return InteractionResult.SUCCESS;
     }
+
+//    public void tick() {
+//        ticksSinceLastMessageDisplay = Math.min(ticksSinceLastMessageDisplay + 1, 200);
+//        if (ticksSinceLastMessageDisplay < 40) {
+//            return;
+//        }
+//        if (!messageQueue.isEmpty()) {
+//           level.getServer().getPlayerList().broadcastChatMessage(PlayerChatMessage.system(messageQueue.remove()), );
+//        }
+//
+//    }
+    private void enqueueMessage(String message) {
+        messageQueue.add(message);
+    }
     private void displayGreeting(Player pPlayer) {
-        pPlayer.displayClientMessage(Component.literal("Hello traveller. I`m a BEAR sigma ALTAR. Be my SLAVE and complete some QUESTS for me."), false);
+        pPlayer.displayClientMessage(Component.literal(quests.getGreetingMessage()), false);
     }
     private void displayNoQuestsMessage(Player pPlayer) {
         pPlayer.displayClientMessage(Component.literal("There is no quests left :("), false);

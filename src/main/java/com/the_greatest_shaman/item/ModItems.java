@@ -18,7 +18,6 @@ public class ModItems {
             () -> new Totem(new Item.Properties(), MobEffects.DOLPHINS_GRACE));
     public static final RegistryObject<Item> PIPE_OF_PEACE = ITEMS.register("pipe_of_peace",
             () -> new PipeOfPeace(new Item.Properties()));
-
     public static final RegistryObject<Item> TOMAHAWK = ITEMS.register("tomahawk",
             () -> new Tomahawk(2.0f, -3.1f, Tiers.IRON, BlockTags.MINEABLE_WITH_AXE, new Item.Properties().defaultDurability(300)));
     public static void register(IEventBus eventBus) {

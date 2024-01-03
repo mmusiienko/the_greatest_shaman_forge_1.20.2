@@ -19,7 +19,6 @@ public class SigmaBlockEntity extends BlockEntity {
             soundInstance.stopInstance();
         }
     }
-
     public void interact(BlockPos pPos) {
         if (soundInstance == null) {
             soundInstance = new SigmaBlockSoundInstance(pPos);
