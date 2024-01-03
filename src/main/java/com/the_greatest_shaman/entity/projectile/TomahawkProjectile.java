@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class TomahawkProjectile extends AbstractArrow {
     private ItemStack tomahawk = new ItemStack(ModItems.TOMAHAWK.get());
+    private static final int MAX_TICKS_ON_GROUND_WHEN_THROWN_BY_MOB = 60;
+    private int ticksOnGround = 0;
     private LivingEntity shooter;
     private InteractionHand hand = InteractionHand.MAIN_HAND;
     private boolean rotating = true;
@@ -47,22 +49,34 @@ public class TomahawkProjectile extends AbstractArrow {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if (!(getOwner() instanceof Player) && onGround()) {
+            ticksOnGround++;
+            if (ticksOnGround >= MAX_TICKS_ON_GROUND_WHEN_THROWN_BY_MOB) {
+                discard();
+            }
+        }
+    }
+
+    @Override
     protected void onHitBlock(@NotNull BlockHitResult pResult) {
         super.onHitBlock(pResult);
         if(!level().isClientSide()) {
-            level().broadcastEntityEvent(this, (byte)3);
+            level().broadcastEntityEvent(this, (byte) 3);
         }
         VoxelShape shape = level().getBlockState(pResult.getBlockPos()).getCollisionShape(level(), pResult.getBlockPos());
         rotating = false;
         topFaceHit = (shape.max(Direction.Axis.Y) == pResult.getLocation().y - pResult.getBlockPos().getY());
         bottomFaceHit = (shape.min(Direction.Axis.Y) == pResult.getLocation().y - pResult.getBlockPos().getY());
+        setOnGround(true);
     }
 
     
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         Entity entity = pResult.getEntity();
-        entity.hurt(this.damageSources().thrown(this, this.getOwner()), 5f);
+        entity.hurt(this.damageSources().thrown(this, getOwner()), 5f);
         entity.invulnerableTime = 0;
         rotating = false;
         level().playSound(null, pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z, SoundEvents.TRIDENT_HIT, SoundSource.PLAYERS, 1f, 1f);
@@ -74,22 +88,26 @@ public class TomahawkProjectile extends AbstractArrow {
             });
         }
 
-        this.setDeltaMovement(this.getDeltaMovement().multiply(-0.1D, -0.1D, -0.1D));
+        setDeltaMovement(this.getDeltaMovement().multiply(-0.1D, -0.1D, -0.1D));
     }
     @Override
     public void playerTouch(@NotNull Player pEntity) {
-        if (this.ownedBy(pEntity) || this.getOwner() == null) {
-            if (!this.level().isClientSide && (this.inGround || this.isNoPhysics()) && this.shakeTime <= 0) {
-                if (this.tryPickup(pEntity)) {
+        if (!(getOwner() instanceof Player)) {
+            return;
+        }
+
+        if (ownedBy(pEntity) || getOwner() == null) {
+            if (!level().isClientSide && (inGround || isNoPhysics()) && shakeTime <= 0) {
+                if (tryPickup(pEntity)) {
                     pEntity.take(this, 1);
-                    this.discard();
+                    discard();
                 }
 
             }
         }
     }
     protected boolean tryPickup(@NotNull Player pPlayer) {
-        return switch (this.pickup) {
+        return switch (pickup) {
             case ALLOWED -> handleItemTransfer(pPlayer);
             case CREATIVE_ONLY -> pPlayer.getAbilities().instabuild;
             default -> false;
