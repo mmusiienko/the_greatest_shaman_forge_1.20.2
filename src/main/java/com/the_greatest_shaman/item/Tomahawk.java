@@ -1,6 +1,9 @@
 package com.the_greatest_shaman.item;
 
 import com.the_greatest_shaman.entity.projectile.TomahawkProjectile;
+
+import java.util.*;
+
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -20,8 +23,48 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class Tomahawk extends DiggerItem {
+    boolean isMainHandTime;
     public Tomahawk(float pAttackDamageModifier, float pAttackSpeedModifier, Tier pTier, TagKey<Block> pBlocks, Item.Properties pProperties) {
         super(pAttackDamageModifier, pAttackSpeedModifier, pTier, pBlocks, pProperties);
+        this.isMainHandTime = true;
+    }
+
+    private void changeIsMainHandTimeImmediatly() {
+        this.isMainHandTime = !this.isMainHandTime;
+    }
+    private void changeIsMainHandTime() {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                changeIsMainHandTimeImmediatly();
+                timer.cancel();
+            }
+        };
+        timer.schedule(task, 100);
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        if (ItemStack.isSameItemSameTags(entity.getItemInHand(InteractionHand.OFF_HAND), stack))  {
+            return false;
+        }
+        return !this.isMainHandTime;
+    }
+
+    @Override
+    public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
+        if (!entity.level().isClientSide) {
+            return !isMainHandTime;
+        }
+
+        if (!isMainHandTime) {
+            player.swing(InteractionHand.OFF_HAND);
+            changeIsMainHandTime();
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -55,6 +98,8 @@ public class Tomahawk extends DiggerItem {
 
         return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
     }
+
+
 
     @Override
     public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {

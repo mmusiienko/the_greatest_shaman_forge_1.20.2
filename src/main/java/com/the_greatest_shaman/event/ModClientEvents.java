@@ -25,4 +25,5 @@ public class ModClientEvents {
         EntityRenderers.register(ModEntities.TOMAHAWK_PROJECTILE.get(), TomahawkRenderer::new);
         EntityRenderers.register(ModEntities.REDSKIN_WARRIOR.get(), RedskinWarriorRenderer::new);
     }
+
 }
