@@ -11,7 +11,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,10 +18,9 @@ public class RedskinWarrior extends AbstractRedskin {
 
     public RedskinWarrior(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.TOMAHAWK.get()));
-        setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.SHIELD));
+        setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.REDSKIN_SPEAR.get()));
+        setItemInHand(InteractionHand.OFF_HAND, new ItemStack(ModItems.REDSKIN_SHIELD.get()));
         setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModItems.FEATHER_HAT.get()));
-        setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
     }
 
     @Override

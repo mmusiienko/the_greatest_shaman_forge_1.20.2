@@ -63,15 +63,15 @@ public class RedskinModel<T extends Entity> extends HierarchicalModel<T> impleme
 
         if (entity instanceof RedskinThrower redskinThrower) {
             if (redskinThrower.isAggressive()) {
-                if (redskinThrower.attackAnimationTimeout < 20) {
+                if (redskinThrower.getAttackAnimationTimeout() < 20) {
                     leftArm.xRot = -3.2f;
                     rightArm.xRot = -3.2f;
-                } else if (redskinThrower.attackAnimationTimeout < 25) {
-                    leftArm.xRot = -Mth.clamp(3.2f * ((25 - redskinThrower.attackAnimationTimeout) / 5f), 0, 3.2f);
-                    rightArm.xRot = -Mth.clamp(3.2f * ((25 - redskinThrower.attackAnimationTimeout) / 5f), 0, 3.2f);
-                } else if (redskinThrower.attackAnimationTimeout >= 55) {
-                    leftArm.xRot = -3.2f + Mth.clamp(3.2f * ((60 - redskinThrower.attackAnimationTimeout) / 5f), 0, 3.2f);
-                    rightArm.xRot = -3.2f + Mth.clamp(3.2f * ((60 - redskinThrower.attackAnimationTimeout) / 5f), 0, 3.2f);
+                } else if (redskinThrower.getAttackAnimationTimeout() < 24) {
+                    leftArm.xRot = -Mth.clamp(3.2f * ((24 - redskinThrower.getAttackAnimationTimeout()) / 4f), 0, 3.2f);
+                    rightArm.xRot = -Mth.clamp(3.2f * ((24 - redskinThrower.getAttackAnimationTimeout()) / 4f), 0, 3.2f);
+                } else if (redskinThrower.getAttackAnimationTimeout() >= 56) {
+                    leftArm.xRot = -3.2f + Mth.clamp(3.2f * ((60 - redskinThrower.getAttackAnimationTimeout()) / 4f), 0, 3.2f);
+                    rightArm.xRot = -3.2f + Mth.clamp(3.2f * ((60 - redskinThrower.getAttackAnimationTimeout()) / 4f), 0, 3.2f);
                 }
             }
         }
@@ -79,8 +79,8 @@ public class RedskinModel<T extends Entity> extends HierarchicalModel<T> impleme
     }
 
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
-        pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
-        pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
+        pNetHeadYaw = Mth.clamp(pNetHeadYaw, -45.0F, 45.0F);
+        pHeadPitch = Mth.clamp(pHeadPitch, -45.0F, 45.0F);
 
         this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);

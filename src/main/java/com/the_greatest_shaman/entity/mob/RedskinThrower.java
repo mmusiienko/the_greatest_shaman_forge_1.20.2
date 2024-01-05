@@ -3,6 +3,9 @@ package com.the_greatest_shaman.entity.mob;
 import com.the_greatest_shaman.TheGreatestShaman;
 import com.the_greatest_shaman.entity.projectile.TomahawkProjectile;
 import com.the_greatest_shaman.item.ModItems;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,16 +19,16 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class RedskinThrower extends AbstractRedskin implements RangedAttackMob {
+    private static final EntityDataAccessor<Integer> ATTACK_ANIMATION_TIMEOUT =
+            SynchedEntityData.defineId(AbstractRedskin.class, EntityDataSerializers.INT);
     public static final int RANGED_ATTACK_COOLDOWN = 60;
-    public int attackAnimationTimeout = 0;
-
+    private LivingEntity target;
     public RedskinThrower(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.TOMAHAWK.get()));
         setItemInHand(InteractionHand.OFF_HAND, new ItemStack(ModItems.TOMAHAWK.get()));
         setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModItems.FEATHER_HAT.get()));
     }
-
     @Override
     protected void registerGoals() {
         super.registerGoals();
@@ -34,21 +37,25 @@ public class RedskinThrower extends AbstractRedskin implements RangedAttackMob {
     @Override
     public void tick() {
         super.tick();
-        if(this.level().isClientSide()) {
-            if (this.isAttacking()) {
-                if (attackAnimationTimeout <= 0) {
-                    attackAnimationTimeout = RANGED_ATTACK_COOLDOWN;
-//                throwAnimationState.start(this.tickCount);
+        if(!level().isClientSide()) {
+            if (isAttacking()) {
+                if (getAttackAnimationTimeout() == RANGED_ATTACK_COOLDOWN - 5) {
+                    actuallyAttack();
+                }
+
+                if (getAttackAnimationTimeout() <= 0) {
+                    setAttackAnimationTimeout(RANGED_ATTACK_COOLDOWN);
                 } else {
-                    --this.attackAnimationTimeout;
+                    setAttackAnimationTimeout(getAttackAnimationTimeout() - 1);
                 }
 
             } else {
-                attackAnimationTimeout = Math.max(attackAnimationTimeout - 1, 0);
+                setAttackAnimationTimeout(Math.max(getAttackAnimationTimeout() - 1, 0));
             }
         }
 
     }
+
     @Override
     public @NotNull ResourceLocation getTextureLocation() {
         return new ResourceLocation(TheGreatestShaman.MODID,"/textures/entity/redskin_thrower.png");
@@ -68,20 +75,38 @@ public class RedskinThrower extends AbstractRedskin implements RangedAttackMob {
     public boolean isAggressive() {
         return super.isAggressive();
     }
+    public void setAttackAnimationTimeout(int attacking) {
+        this.entityData.set(ATTACK_ANIMATION_TIMEOUT, attacking);
+    }
 
-    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
+    public int getAttackAnimationTimeout() {
+        return this.entityData.get(ATTACK_ANIMATION_TIMEOUT);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ATTACK_ANIMATION_TIMEOUT, 0);
+    }
+    public void actuallyAttack() {
+        if (target == null) return;
         TomahawkProjectile tomahawkMain = new TomahawkProjectile(this, level(), new ItemStack(ModItems.TOMAHAWK.get(), 1), InteractionHand.MAIN_HAND);
         TomahawkProjectile tomahawkOff = new TomahawkProjectile(this, level(), new ItemStack(ModItems.TOMAHAWK.get(), 1), InteractionHand.OFF_HAND);
-        double d0 = pTarget.getX() - this.getX();
-        double d1 = pTarget.getY() - tomahawkMain.getY();
-        double d2 = pTarget.getZ() - this.getZ();
+        double d0 = target.getX() - this.getX();
+        double d1 = target.getY() - tomahawkMain.getY();
+        double d2 = target.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
         tomahawkMain.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
         level().addFreshEntity(tomahawkMain);
         tomahawkOff.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
         level().addFreshEntity(tomahawkOff);
         level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 1F, 1f);
+    }
+
+    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
+        this.target = pTarget;
         setAttacking(true);
+        setAttackAnimationTimeout(0);
     }
 
 

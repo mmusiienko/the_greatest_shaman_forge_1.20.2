@@ -33,6 +33,15 @@ public class ModItems {
             "chieftains_hat",
             () -> new CustomHeadItem(new Item.Properties())
     );
+    public static final RegistryObject<Item> REDSKIN_SPEAR = ITEMS.register(
+            "redskin_spear",
+            () -> new CustomSwordItem(Tiers.IRON, 3, -1f, new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> REDSKIN_SHIELD = ITEMS.register(
+            "redskin_shield",
+            () -> new CustomShieldItem(new Item.Properties().defaultDurability(200))
+    );
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
