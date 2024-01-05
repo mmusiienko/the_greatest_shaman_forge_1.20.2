@@ -3,8 +3,7 @@ package com.the_greatest_shaman.item;
 import com.the_greatest_shaman.TheGreatestShaman;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +24,14 @@ public class ModItems {
                     Tiers.IRON,
                     BlockTags.MINEABLE_WITH_AXE,
                     new Item.Properties().defaultDurability(300))
+    );
+    public static final RegistryObject<Item> FEATHER_HAT = ITEMS.register(
+            "feather_hat",
+            () -> new CustomHeadItem(new Item.Properties())
+    );
+    public static final RegistryObject<Item> CHIEFTAINS_HAT = ITEMS.register(
+            "chieftains_hat",
+            () -> new CustomHeadItem(new Item.Properties())
     );
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

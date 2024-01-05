@@ -159,7 +159,6 @@ public abstract class AltarBlockEntity extends BlockEntity {
         public static void onMobKill(LivingDeathEvent event) {
             ALTAR_BLOCK_ENTITIES.forEach(
                     altar -> {
-
                         if (altar.level != null && altar.level.isClientSide()) {
                             return;
                         }
@@ -190,16 +189,9 @@ public abstract class AltarBlockEntity extends BlockEntity {
                                 altar.displayMobKillCompletionMessage(player);
                             }
                         }
-
-
                     }
             );
 
         }
-
-
     }
-
-
-
 }

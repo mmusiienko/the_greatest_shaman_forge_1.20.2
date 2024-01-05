@@ -4,6 +4,7 @@ package com.the_greatest_shaman.event;
 
 import com.the_greatest_shaman.TheGreatestShaman;
 import com.the_greatest_shaman.entity.ModEntities;
+import com.the_greatest_shaman.entity.mob.RedskinThrower;
 import com.the_greatest_shaman.entity.mob.RedskinWarrior;
 import com.the_greatest_shaman.particle.FireParticle;
 import com.the_greatest_shaman.particle.ModParticles;
@@ -32,6 +33,8 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(ModEntities.REDSKIN_THROWER.get(), RedskinThrower.createAttributes().build());
         event.put(ModEntities.REDSKIN_WARRIOR.get(), RedskinWarrior.createAttributes().build());
+        event.put(ModEntities.REDSKIN_CHIEFTAIN.get(), RedskinWarrior.createAttributes().build());
     }
 }
