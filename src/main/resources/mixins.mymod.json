@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "com.the_greatest_shaman.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ClickMixin",
+    "GameModeAttackMixin",
+    "ListenerImplMixin",
+    "ListenerMixin",
+    "ModelMixin",
+    "PacketMixinClient",
+    "PacketMixinServer",
+    "PlayerMixin",
+    "PlayerServerMixin",
+    "SwingMixin"
+  ],
+  "client": [
+  ]
+}

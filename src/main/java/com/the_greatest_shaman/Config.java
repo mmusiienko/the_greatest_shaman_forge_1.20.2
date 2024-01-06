@@ -59,4 +59,9 @@ public class Config
                 .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
                 .collect(Collectors.toSet());
     }
+
+    public static final class Runtime {
+
+        public static double attackTimeoutAfterSwing = 0.5D;
+    }
 }

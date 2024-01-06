@@ -7,6 +7,7 @@ import com.the_greatest_shaman.item.ModItems;
 import com.the_greatest_shaman.particle.ModParticles;
 import com.the_greatest_shaman.sound.ModSound;
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,6 +22,24 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.mojang.authlib.minecraft.client.ObjectMapper;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.Inject;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(TheGreatestShaman.MODID)
 public class TheGreatestShaman
@@ -30,6 +49,8 @@ public class TheGreatestShaman
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public static Map<UUID, Data> swing = new HashMap<>();
+    public static Map<UUID, Data> swingLocal = new HashMap<>();
 
     public TheGreatestShaman()
     {
@@ -73,6 +94,20 @@ public class TheGreatestShaman
 
     }
 
+    public static Data get(Player entity) {
+        if (entity.isLocalPlayer()) {
+            if (!swingLocal.containsKey(entity.getUUID())) {
+                swingLocal.put(entity.getUUID(), new Data());
+            }
+            return swingLocal.get(entity.getUUID());
+        } else {
+            if (!swing.containsKey(entity.getUUID())) {
+                swing.put(entity.getUUID(), new Data());
+            }
+            return swing.get(entity.getUUID());
+        }
+    }
+
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
@@ -82,5 +117,21 @@ public class TheGreatestShaman
     public static class ClientModEvents
     {
 
+    }
+
+    public static class Data {
+        public boolean doOverride;
+        //
+        public int missTime;
+        //
+        public int swingTime;
+        public boolean swinging;
+        public float attackAnim;
+        public float attackAnim_;
+        public int attackStrengthTicker;
+        public InteractionHand swingingArm;
+        //
+        public int ticksSinceLastActiveStack;
+        public InteractionHand handOfLastActiveStack;
     }
 }

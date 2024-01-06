@@ -32,6 +32,8 @@ public abstract class AltarBlockEntity extends BlockEntity {
         this.quests = quests;
         ALTAR_BLOCK_ENTITIES.add(this);
     }
+
+
     private void decreaseEntityToKillCount() {
         entityToKillCount--;
     }
@@ -42,6 +44,9 @@ public abstract class AltarBlockEntity extends BlockEntity {
         pTag.putInt("currentQuestIndex", currentQuestIndex);
         super.saveAdditional(pTag);
     }
+    @Override
+    public void onChunkUnloaded() {ALTAR_BLOCK_ENTITIES.remove(this);}
+
 
     @Override
     public void load(@NotNull CompoundTag pTag) {

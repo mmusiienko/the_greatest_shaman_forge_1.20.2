@@ -20,7 +20,7 @@ public class BearAltarBlockEntity extends AltarBlockEntity {
             .setTaskMessage("Kill the disbeliever (mr PIG) close to my altar, ")
             .setEntityTask(Pig.class)
             .setEntityCount(1)
-            .setDistanceToKillEntity(100.0)
+            .setDistanceToKillEntity(9.0)
             .setRewardMessage("And now he is GONE. Good job. Take this.")
             .setReward(new ItemStack(Items.BEEF, 64))
             .build();
