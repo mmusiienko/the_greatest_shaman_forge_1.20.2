@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "the_greatest_shaman:item/redskin_chieftain_spawn_egg"
+  }
+}

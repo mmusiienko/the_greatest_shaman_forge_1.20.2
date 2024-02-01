@@ -38,19 +38,22 @@ public class RedskinThrower extends AbstractRedskin implements RangedAttackMob {
     public void tick() {
         super.tick();
         if(!level().isClientSide()) {
+            int timeout = getAttackAnimationTimeout();
             if (isAttacking()) {
-                if (getAttackAnimationTimeout() == RANGED_ATTACK_COOLDOWN - 5) {
+                if (timeout == RANGED_ATTACK_COOLDOWN - 5) {
                     actuallyAttack();
                 }
 
-                if (getAttackAnimationTimeout() <= 0) {
+                if (timeout <= 0) {
                     setAttackAnimationTimeout(RANGED_ATTACK_COOLDOWN);
                 } else {
-                    setAttackAnimationTimeout(getAttackAnimationTimeout() - 1);
+                    setAttackAnimationTimeout(timeout - 1);
                 }
 
             } else {
-                setAttackAnimationTimeout(Math.max(getAttackAnimationTimeout() - 1, 0));
+                if (timeout > 0) {
+                    setAttackAnimationTimeout(timeout - 1);
+                }
             }
         }
 
