@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "the_greatest_shaman:item/medallion_of_death/2d"
+  }
+}

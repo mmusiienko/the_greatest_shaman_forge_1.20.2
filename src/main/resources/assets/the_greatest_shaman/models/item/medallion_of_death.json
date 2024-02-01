@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "the_greatest_shaman:item/medallion_of_death_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "the_greatest_shaman:item/medallion_of_death_2d"
+    },
+    "ground": {
+      "parent": "the_greatest_shaman:item/medallion_of_death_2d"
+    },
+    "fixed": {
+      "parent": "the_greatest_shaman:item/medallion_of_death_2d"
+    },
+    "firstperson_lefthand": {
+      "parent": "the_greatest_shaman:item/medallion_of_death_3d_left"
+    },
+    "thirdperson_lefthand": {
+      "parent": "the_greatest_shaman:item/medallion_of_death_3d_left"
+    }
+  }
+}
