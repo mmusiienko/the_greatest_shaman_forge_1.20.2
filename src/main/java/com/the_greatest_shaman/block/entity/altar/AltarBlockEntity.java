@@ -17,7 +17,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IdMappingEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 public abstract class AltarBlockEntity extends BlockEntity {
     public static Set<AltarBlockEntity> ALTAR_BLOCK_ENTITIES = new HashSet<>();
@@ -74,11 +77,15 @@ public abstract class AltarBlockEntity extends BlockEntity {
         return quests.getQuest(currentQuestIndex);
     }
     public InteractionResult interact(Player pPlayer) {
-        if (currentQuestIndex == -1 && !quests.isEmpty()) {
-            displayGreeting(pPlayer);
-            completeQuest();
-            displayQuestTask(pPlayer);
-            return InteractionResult.SUCCESS;
+        if (currentQuestIndex == -1) {
+            if (!quests.isEmpty()) {
+                displayGreeting(pPlayer);
+                completeQuest();
+                displayQuestTask(pPlayer);
+                return InteractionResult.SUCCESS;
+            } else {
+                return InteractionResult.SUCCESS;
+            }
         }
 
         if (currentQuestIndex >= quests.size()) {
