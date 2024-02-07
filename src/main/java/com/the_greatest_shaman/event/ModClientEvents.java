@@ -1,6 +1,8 @@
 package com.the_greatest_shaman.event;
 
 import com.the_greatest_shaman.TheGreatestShaman;
+import com.the_greatest_shaman.block.entity.ModBlockEntities;
+import com.the_greatest_shaman.block.entity.altar.client.DeathAltarRenderer;
 import com.the_greatest_shaman.entity.ModEntities;
 import com.the_greatest_shaman.entity.model.ModMobModelLayers;
 import com.the_greatest_shaman.entity.model.RedskinModel;
@@ -8,6 +10,7 @@ import com.the_greatest_shaman.entity.renderer.HarpoonRenderer;
 import com.the_greatest_shaman.entity.renderer.RedskinRenderer;
 import com.the_greatest_shaman.entity.renderer.TomahawkRenderer;
 import com.the_greatest_shaman.item.ModItems;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -39,5 +42,6 @@ public class ModClientEvents {
                     }
                     return stack.getTag().getBoolean("thrown") ? 1 : 0;
                 });
+        BlockEntityRenderers.register(ModBlockEntities.DEATH_ALTAR_BLOCK_ENTITY.get(), DeathAltarRenderer::new);
     }
 }

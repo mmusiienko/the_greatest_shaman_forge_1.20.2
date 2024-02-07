@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "the_greatest_shaman:block/death_altar"
+    },
+    "facing=east": {
+      "model": "the_greatest_shaman:block/death_altar",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "the_greatest_shaman:block/death_altar",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "the_greatest_shaman:block/death_altar",
+      "y": 270
+    }
+  }
+}

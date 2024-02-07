@@ -1,7 +1,7 @@
 package com.the_greatest_shaman.event;
 
 
-
+import com.mojang.logging.LogUtils;
 import com.the_greatest_shaman.TheGreatestShaman;
 import com.the_greatest_shaman.entity.ModEntities;
 import com.the_greatest_shaman.entity.mob.RedskinThrower;
@@ -9,11 +9,8 @@ import com.the_greatest_shaman.entity.mob.RedskinWarrior;
 import com.the_greatest_shaman.particle.FireParticle;
 import com.the_greatest_shaman.particle.ModParticles;
 import com.the_greatest_shaman.particle.SmokeParticle;
-
-import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,4 +34,5 @@ public class ModEvents {
         event.put(ModEntities.REDSKIN_WARRIOR.get(), RedskinWarrior.createAttributes().build());
         event.put(ModEntities.REDSKIN_CHIEFTAIN.get(), RedskinWarrior.createAttributes().build());
     }
+
 }

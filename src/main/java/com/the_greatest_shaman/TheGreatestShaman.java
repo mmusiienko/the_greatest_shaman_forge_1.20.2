@@ -1,5 +1,6 @@
 package com.the_greatest_shaman;
 
+import com.mojang.logging.LogUtils;
 import com.the_greatest_shaman.block.ModBlocks;
 import com.the_greatest_shaman.block.entity.ModBlockEntities;
 import com.the_greatest_shaman.entity.ModEntities;
@@ -7,7 +8,6 @@ import com.the_greatest_shaman.item.ModItems;
 import com.the_greatest_shaman.item.ModMobEffects;
 import com.the_greatest_shaman.particle.ModParticles;
 import com.the_greatest_shaman.sound.ModSound;
-import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -20,6 +20,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import software.bernie.geckolib.GeckoLib;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(TheGreatestShaman.MODID)
@@ -44,6 +45,7 @@ public class TheGreatestShaman
         ModMobEffects.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         // Register the commonSetup method for modloading
+        GeckoLib.initialize();
         modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in
