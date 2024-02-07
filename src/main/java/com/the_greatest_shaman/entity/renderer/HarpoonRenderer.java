@@ -20,8 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class HarpoonRenderer extends EntityRenderer<HarpoonProjectile> {
-
-    private static final ResourceLocation TOMAHAWK = new ResourceLocation("textures/item/tomahawk.png");
+    private static final ResourceLocation HARPOON = new ResourceLocation("textures/item/harpoon.png");
     private static final float SCALAR = 2f;
 
     public HarpoonRenderer(EntityRendererProvider.Context pContext) {
@@ -67,7 +66,7 @@ public class HarpoonRenderer extends EntityRenderer<HarpoonProjectile> {
     }
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull HarpoonProjectile pEntity) {
-        return TOMAHAWK;
+        return HARPOON;
     }
 
 }
