@@ -238,5 +238,13 @@
 			"nbt": "{}",
 			"children": [10, 11, 12, 13]
 		}
+	],
+	"overrides": [
+		{
+			"predicate": {
+				"the_greatest_shaman:thrown": 1
+			},
+			"model": "the_greatest_shaman:item/harpoon_thrown"
+		}
 	]
 }

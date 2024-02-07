@@ -1,14 +1,13 @@
 package com.the_greatest_shaman.entity.projectile;
 
 import com.the_greatest_shaman.entity.ModEntities;
-import net.minecraft.client.renderer.entity.FishingHookRenderer;
+import com.the_greatest_shaman.item.ModItems;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -18,17 +17,18 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class HarpoonProjectile extends AbstractArrow {
+    private ItemStack harpoon = new ItemStack(ModItems.HARPOON.get());
 
     public HarpoonProjectile(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
-
     protected HarpoonProjectile(EntityType<? extends AbstractArrow> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         super(pEntityType, pX, pY, pZ, pLevel);
     }
 
-    public HarpoonProjectile(LivingEntity pShooter, Level pLevel) {
+    public HarpoonProjectile(LivingEntity pShooter, Level pLevel, ItemStack harpoon) {
         super(ModEntities.HARPOON_PROJECTILE.get(), pShooter, pLevel);
+        this.harpoon = harpoon;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class HarpoonProjectile extends AbstractArrow {
         super.onHitBlock(pResult);
         if(!level().isClientSide()) {
             level().broadcastEntityEvent(this, (byte) 3);
-            discard();
+            remove();
         }
     }
 
@@ -55,6 +55,11 @@ public class HarpoonProjectile extends AbstractArrow {
             Vec3 vec3 = (new Vec3(owner.getX() - this.getX(), owner.getY() - this.getY(), owner.getZ() - this.getZ())).scale(0.2D);
             entity.setDeltaMovement(entity.getDeltaMovement().add(vec3));
         }
+        remove();
+    }
+
+    private void remove() {
+        harpoon.getOrCreateTag().putBoolean("thrown", false);
         discard();
     }
 }

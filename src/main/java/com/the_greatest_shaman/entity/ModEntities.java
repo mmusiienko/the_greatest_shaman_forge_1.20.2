@@ -20,9 +20,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<TomahawkProjectile>> TOMAHAWK_PROJECTILE =
             ENTITY_TYPES.register("tomahawk_projectile",
                     () -> EntityType.Builder.<TomahawkProjectile>of(TomahawkProjectile::new, MobCategory.MISC).sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(20).build("tomahawk_projectile"));
-    public static final RegistryObject<EntityType<HarpoonProjectile>> HOOK_PROJECTILE =
+    public static final RegistryObject<EntityType<HarpoonProjectile>> HARPOON_PROJECTILE =
             ENTITY_TYPES.register("hook_projectile",
-                    () -> EntityType.Builder.<HarpoonProjectile>of(HarpoonProjectile::new, MobCategory.MISC).sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(20).build("hook_projectile"));
+                    () -> EntityType.Builder.<HarpoonProjectile>of(HarpoonProjectile::new, MobCategory.MISC).sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(20).build("harpoon_projectile"));
     public static final RegistryObject<EntityType<RedskinThrower>> REDSKIN_THROWER =
             ENTITY_TYPES.register("redskin_thrower",
                     () -> EntityType.Builder.of(RedskinThrower::new, MobCategory.MISC).sized(0.6F, 1.8F).build(new ResourceLocation(TheGreatestShaman.MODID, "redskin_thrower").toString()));
