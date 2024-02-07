@@ -9,8 +9,11 @@ import com.the_greatest_shaman.entity.model.RedskinModel;
 import com.the_greatest_shaman.entity.renderer.HarpoonRenderer;
 import com.the_greatest_shaman.entity.renderer.RedskinRenderer;
 import com.the_greatest_shaman.entity.renderer.TomahawkRenderer;
+import com.the_greatest_shaman.item.ModItems;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,6 +35,13 @@ public class ModClientEvents {
         EntityRenderers.register(ModEntities.REDSKIN_THROWER.get(), RedskinRenderer::new);
         EntityRenderers.register(ModEntities.REDSKIN_WARRIOR.get(), RedskinRenderer::new);
         EntityRenderers.register(ModEntities.REDSKIN_CHIEFTAIN.get(), RedskinRenderer::new);
+        ItemProperties.register(ModItems.HARPOON.get(), new ResourceLocation(TheGreatestShaman.MODID, "thrown"),
+                (stack, level, entity, id) -> {
+                    if (stack.getTag() == null) {
+                        return 0;
+                    }
+                    return stack.getTag().getBoolean("thrown") ? 1 : 0;
+                });
         BlockEntityRenderers.register(ModBlockEntities.DEATH_ALTAR_BLOCK_ENTITY.get(), DeathAltarRenderer::new);
     }
 }

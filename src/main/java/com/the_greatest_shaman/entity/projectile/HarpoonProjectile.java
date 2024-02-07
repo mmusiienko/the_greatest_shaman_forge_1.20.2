@@ -1,6 +1,7 @@
 package com.the_greatest_shaman.entity.projectile;
 
 import com.the_greatest_shaman.entity.ModEntities;
+import com.the_greatest_shaman.item.ModItems;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -12,9 +13,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class HarpoonProjectile extends AbstractArrow {
+    private ItemStack harpoon = new ItemStack(ModItems.HARPOON.get());
 
     public HarpoonProjectile(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -24,8 +27,9 @@ public class HarpoonProjectile extends AbstractArrow {
         super(pEntityType, pX, pY, pZ, pLevel);
     }
 
-    public HarpoonProjectile(LivingEntity pShooter, Level pLevel) {
-        super(ModEntities.HOOK_PROJECTILE.get(), pShooter, pLevel);
+    public HarpoonProjectile(LivingEntity pShooter, Level pLevel, ItemStack harpoon) {
+        super(ModEntities.HARPOON_PROJECTILE.get(), pShooter, pLevel);
+        this.harpoon = harpoon;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class HarpoonProjectile extends AbstractArrow {
         super.onHitBlock(pResult);
         if(!level().isClientSide()) {
             level().broadcastEntityEvent(this, (byte) 3);
-            discard();
+            remove();
         }
     }
 
@@ -47,9 +51,16 @@ public class HarpoonProjectile extends AbstractArrow {
         Entity entity = pResult.getEntity();
         entity.hurt(this.damageSources().thrown(this, getOwner()), 5f);
         level().playSound(null, pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z, SoundEvents.TRIDENT_HIT, SoundSource.PLAYERS, 1f, 1f);
-        if (getOwner() != null) {
-
-            pResult.getEntity().setDeltaMovement((getOwner().getOnPos().getCenter().subtract(entity.getOnPos().getCenter())).normalize().multiply(2, 2, 2));
+        Entity owner = getOwner();
+        if (owner != null) {
+            Vec3 vec3 = (new Vec3(owner.getX() - this.getX(), owner.getY() - this.getY(), owner.getZ() - this.getZ())).scale(0.2D);
+            entity.setDeltaMovement(entity.getDeltaMovement().add(vec3));
         }
+        remove();
+    }
+
+    private void remove() {
+        harpoon.getOrCreateTag().putBoolean("thrown", false);
+        discard();
     }
 }
